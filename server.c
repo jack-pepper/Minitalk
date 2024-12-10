@@ -2,6 +2,7 @@
 #include <signal.h>
 
 void	signal_handler(int signum);
+char    ft_bin_to_char(char binary[9]);
 
 int	main(void)
 {
@@ -24,8 +25,40 @@ int	main(void)
 
 void	signal_handler(int signum)
 {
-	if (signum == SIGUSR1)
-		ft_printf("SIGUSR1 received\n", signum);
-	else if (signum == SIGUSR2)
-		ft_printf("SIGUSR2 received\n", signum);
+	static int	i = 0;
+	static char	binary[9];
+	char		c;
+
+	if (i < 8)
+	{
+		if (signum == SIGUSR1)
+			binary[i] = '0';
+		else if (signum == SIGUSR2)
+			binary[i] = '1';
+		i++;
+	}
+	if (i == 8)
+	{
+		binary[i] = '\0';
+		c = ft_bin_to_char(binary);
+		write(1, &c, 1);
+		i = 0;
+		ft_memset(binary, '\0', 9);
+	}
+}
+
+char    ft_bin_to_char(char binary[9])
+{
+        int     ascii_val;
+        int     i;
+
+	ascii_val = 0;
+        i = 0;
+        while (i < 8)
+        {
+                if (binary[i] == '1')
+                        ascii_val += (1 << (7 - i));
+                i++;
+        }
+        return ((char)ascii_val);
 }
