@@ -40,6 +40,8 @@ void	signal_handler(int signum)
 	static int	i = 0;
 	static char	binary[9];
 	char		c;
+	static char		buf[100];
+	static int	buf_index = 0;
 
 	if (i < 8)
 	{
@@ -53,9 +55,16 @@ void	signal_handler(int signum)
 	{
 		binary[i] = '\0';
 		c = ft_bin_to_char(binary);
-		write(1, &c, 1);
+		buf[buf_index] = c;
+		//write(1, &c, 1);
+		buf_index++;
 		i = 0;
 		ft_memset(binary, '\0', 9);
+	}
+	if (buf_index == 100)
+	{
+		write(1, buf, 100);
+		buf_index = 0;
 	}
 }
 

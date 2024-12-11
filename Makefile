@@ -48,14 +48,14 @@ OBJ_SERVER = $(SRC_SERVER:.c=.o)
 
 all: $(LIBFT) $(EXEC_CLIENT) $(EXEC_SERVER)
 
-$(LIBFT): $(DEPS)
+$(LIBFT):
 	cd libft && make
 
 $(EXEC_CLIENT): $(OBJ_CLIENT) $(LIBFT)
-	$(CC) $(OBJ_CLIENT) $(LIBFT) -o $(EXEC_CLIENT)
+	$(CC) $(OBJ_CLIENT) -Llibft -lft -o $(EXEC_CLIENT)
 
 $(EXEC_SERVER): $(OBJ_SERVER) $(LIBFT)
-	$(CC) $(OBJ_SERVER) $(LIBFT) -o $(EXEC_SERVER)
+	$(CC) $(OBJ_SERVER) -Llibft -lft -o $(EXEC_SERVER)
 
 ######################################
 ### Compile .c files into .o files ###
@@ -81,9 +81,10 @@ fclean: clean
 	cd libft && make fclean
 	rm -f $(EXEC_CLIENT) $(EXEC_SERVER)
 
-# Rule to recompile everything (execute fclean, then re)
 re: fclean all
 
-############################################
-# Those targets are not files but commands
+#########################
+### .PHONY Exceptions ###
+#########################
+
 .PHONY: all clean fclean re bonus

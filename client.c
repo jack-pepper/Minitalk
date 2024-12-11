@@ -41,9 +41,9 @@ int	main(int argc, char **argv)
 		while (msg[i] != '\0')
 		{
 			if (ft_encrypt_char(target_pid, msg[i]) == -1)
-				ft_printf("Error while sending signal\n");
-			else
-				ft_printf("\nChar '%c' successfully encrypted!\n", msg[i]);
+				return (-1);
+			//else
+			//	ft_printf("\nChar '%c' successfully encrypted!\n", msg[i]);
 			i++;
 		}
 		return (0);
@@ -89,14 +89,14 @@ int	ft_encrypt_char(int target_pid, int character)
 		if (ft_is_bit_set(character, i) == 0)
 		{
 			res = kill(target_pid, SIGUSR1);
-			if (res == 0)
-				ft_putchar_fd('0', 1);
+			//if (res == 0)
+			//	ft_putchar_fd('0', 1);
 		}
 		else if (ft_is_bit_set(character, i) == 1)
 		{
 			res = kill(target_pid, SIGUSR2);
-			if (res == 0)
-				ft_putchar_fd('1', 1);
+			//if (res == 0)
+			//	ft_putchar_fd('1', 1);
 		}
 		if (res != 0)
 			return (-1);
