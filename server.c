@@ -65,6 +65,7 @@ void	signal_handler(int signum)
 	{
 		write(1, buf, 100);
 		buf_index = 0;
+		ft_memset(buf, '\0', 100);
 	}
 }
 
