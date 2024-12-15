@@ -10,35 +10,35 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/* TO DO: create init_ functions for signal handling
- * Include ft_bin_to_char to libft
- *
- */
-
 #include "./libft/libft.h"
 #include <signal.h>
 
+void	init_sigaction(void);
 void	signal_handler(int signum, siginfo_t *info, void *ucontext);
-char	ft_bin_to_char(char binary[9]);
 
 int	main(void)
 {
-	struct sigaction		act;
 	pid_t					pid;
 
-	ft_memset(&act, 0, sizeof(act));
 	pid = getpid();
 	ft_printf("Process ID (PID): %d\n", pid);
-	act.sa_sigaction = signal_handler;
-	sigemptyset(&act.sa_mask);
-	act.sa_flags = SA_SIGINFO;
-	sigaction(SIGUSR1, &act, NULL);
-	sigaction(SIGUSR2, &act, NULL);
+	init_sigaction();
 	while (1)
 	{
 		pause();
 	}
 	return (0);
+}
+
+void	init_sigaction(void)
+{
+	struct sigaction		act;
+
+	ft_memset(&act, 0, sizeof(act));
+	act.sa_sigaction = signal_handler;
+	act.sa_flags = SA_SIGINFO;
+	sigaction(SIGUSR1, &act, NULL);
+	sigaction(SIGUSR2, &act, NULL);
 }
 
 void	signal_handler(int signum, siginfo_t *info, void *ucontext)
@@ -65,21 +65,4 @@ void	signal_handler(int signum, siginfo_t *info, void *ucontext)
 	}
 	ucontext++;
 	kill(info->si_pid, SIGUSR1);
-}
-
-// Should be in libft
-char	ft_bin_to_char(char binary[9])
-{
-	int	ascii_val;
-	int	i;
-
-	ascii_val = 0;
-	i = 0;
-	while (i < 8)
-	{
-		if (binary[i] == '1')
-			ascii_val += (1 << (7 - i));
-		i++;
-	}
-	return ((char)ascii_val);
 }
