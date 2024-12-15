@@ -13,19 +13,20 @@
 #include "./libft/libft.h"
 #include <signal.h>
 
-void	signal_handler(int signum);
+void	signal_handler(int signum, siginfo_t *info, void *ucontext);
 char	ft_bin_to_char(char binary[9]);
 
 int	main(void)
 {
-	pid_t			pid;
 	struct sigaction	act;
+	pid_t	pid;
 
+	ft_memset(&act, 0, sizeof(act));
 	pid = getpid();
 	ft_printf("Process ID (PID): %d\n", pid);
-	act.sa_handler = signal_handler;
+	act.sa_sigaction = signal_handler;
 	sigemptyset(&act.sa_mask);
-	act.sa_flags = 0;
+	act.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &act, NULL);
 	sigaction(SIGUSR2, &act, NULL);
 	while (1)
@@ -35,13 +36,13 @@ int	main(void)
 	return (0);
 }
 
-void	signal_handler(int signum)
+void	signal_handler(int signum, siginfo_t *info, void *ucontext)
 {
 	static int	i = 0;
 	static char	binary[9];
 	char		c;
-	static char		buf[100];
-	static int	buf_index = 0;
+	//static char		buf[20]; // TEST, set to 100
+	//static int	buf_index = 0;
 
 	if (i < 8)
 	{
@@ -49,24 +50,27 @@ void	signal_handler(int signum)
 			binary[i] = '0';
 		else if (signum == SIGUSR2)
 			binary[i] = '1';
-		i++;
+		i++;	
 	}
 	if (i == 8)
 	{
 		binary[i] = '\0';
 		c = ft_bin_to_char(binary);
-		buf[buf_index] = c;
-		//write(1, &c, 1);
-		buf_index++;
+	//	buf[buf_index] = c;
+		write(1, &c, 1);
+	//	buf_index++;
 		i = 0;
 		ft_memset(binary, '\0', 9);
+//		kill(info->si_pid, SIGUSR1);
 	}
-	if (buf_index == 100)
-	{
-		write(1, buf, 100);
-		buf_index = 0;
-		ft_memset(buf, '\0', 100);
-	}
+	//if (buf_index == 20)
+	//{
+	//	write(1, buf, 20);
+	//	buf_index = 0;
+	//	ft_memset(buf, '\0', 20);
+	//}
+	ucontext++;
+	kill(info->si_pid, SIGUSR1);
 }
 
 char	ft_bin_to_char(char binary[9])
