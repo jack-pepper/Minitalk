@@ -10,6 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/* TO DO: create init_ functions for signal handling
+ * Include ft_bin_to_char to libft
+ *
+ */
+
 #include "./libft/libft.h"
 #include <signal.h>
 
@@ -18,8 +23,8 @@ char	ft_bin_to_char(char binary[9]);
 
 int	main(void)
 {
-	struct sigaction	act;
-	pid_t	pid;
+	struct sigaction		act;
+	pid_t					pid;
 
 	ft_memset(&act, 0, sizeof(act));
 	pid = getpid();
@@ -41,8 +46,6 @@ void	signal_handler(int signum, siginfo_t *info, void *ucontext)
 	static int	i = 0;
 	static char	binary[9];
 	char		c;
-	//static char		buf[20]; // TEST, set to 100
-	//static int	buf_index = 0;
 
 	if (i < 8)
 	{
@@ -50,29 +53,21 @@ void	signal_handler(int signum, siginfo_t *info, void *ucontext)
 			binary[i] = '0';
 		else if (signum == SIGUSR2)
 			binary[i] = '1';
-		i++;	
+		i++;
 	}
 	if (i == 8)
 	{
 		binary[i] = '\0';
 		c = ft_bin_to_char(binary);
-	//	buf[buf_index] = c;
 		write(1, &c, 1);
-	//	buf_index++;
 		i = 0;
 		ft_memset(binary, '\0', 9);
-//		kill(info->si_pid, SIGUSR1);
 	}
-	//if (buf_index == 20)
-	//{
-	//	write(1, buf, 20);
-	//	buf_index = 0;
-	//	ft_memset(buf, '\0', 20);
-	//}
 	ucontext++;
 	kill(info->si_pid, SIGUSR1);
 }
 
+// Should be in libft
 char	ft_bin_to_char(char binary[9])
 {
 	int	ascii_val;
