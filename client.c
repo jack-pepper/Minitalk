@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.h                                           :+:      :+:    :+:   */
+/*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 11:25:28 by mmalie            #+#    #+#             */
-/*   Updated: 2024/11/14 09:34:23 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/23 21:39:35 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* TO DO:
- * Improve args parsing if needed
- * Check edge cases (1 char, empty string, etc.)
- */
-
 #include "./libft/libft.h"
 #include <signal.h>
-
+/*
+ * Open two terminals. Launch ./server first in one of them.
+ * Then launch ./client <SERVER_PID> <MESSAGE> in the second.
+ * The message will be displayed in the first terminal.
+ */
 int	g_is_transmission_open = 0;
 
 void	signal_handler(int signum);
@@ -25,7 +24,6 @@ void	init_sigaction(void);
 void	init_sigset(void);
 int		ft_encrypt_char(int target_pid, int character);
 
-// Must improve input checking! types must match
 int	main(int argc, char **argv)
 {
 	char		*msg;

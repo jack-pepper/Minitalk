@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.h                                           :+:      :+:    :+:   */
+/*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 11:25:28 by mmalie            #+#    #+#             */
-/*   Updated: 2024/11/14 09:34:23 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/23 21:40:28 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libft/libft.h"
 #include <signal.h>
-
+/*
+ * Open two terminals. Launch ./server first in one of them.
+ * Then launch ./client <SERVER_PID> <MESSAGE> in the second.
+ * The message will be displayed in the first terminal.
+ */
 void	init_sigaction(void);
 void	signal_handler(int signum, siginfo_t *info, void *ucontext);
 
