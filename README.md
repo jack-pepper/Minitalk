@@ -6,6 +6,9 @@ The Minitalk project involves creating a simple communication protocol between t
 - and a **client** (sender).
 The concept of using UNIX signals for inter-process communication is inspired by classic low-level systems programming tasks.
 
+To help me understand better bitwise operations and their potential, I wrote an additional library LIBSORT whose functions I used
+to solve this task.
+
 **Technologies Used:**
 - C
 - UNIX Signals
@@ -70,4 +73,4 @@ This project is pretty straightforward, but if you have suggestions for improvem
 - Open a pull request.
 
 ## Acknowledgments
-Thanks to the 42 community for their support and feedback during the development of this project.
+Thanks to the 42 Nice community!
